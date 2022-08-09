@@ -4,9 +4,10 @@ const login = async (req, res) => {
   const {email, password} = req.body;
 
   try {
-    await authService.login(email, password);
+    const token = await authService.login(email, password);
+    res.json(token);
   } catch (e) {
-    console.log(e); // TODO
+    res.status(e.code).send(e.message);
   }
 };
 

@@ -8,11 +8,11 @@ const app = express();
 
 app.use(express.json());
 
+app.use("/auth", authRouter);
+app.use("/user", userRoute);
+
 app.get("/", (req, res) => {
   res.send("Hello!");
 })
-
-app.use("/auth", authRouter);
-app.use("/user", userRoute);
 
 app.listen(port, () => console.log(`Server listening to port: ${port}`));
