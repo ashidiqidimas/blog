@@ -1,20 +1,20 @@
-const {User} = require("../database/models");
+const { User } = require("../database/models");
 
 const findUser = async (email) => {
-  return await User.findOne({ where: {email}, raw: true });
+  return await User.findOne({ where: { email }, raw: true });
 };
 
-const createUser = async ({email, password, fullname}) => {
+const createUser = async ({ email, password, fullname }) => {
   return await User.create({
     fullname,
     email,
-    password
-  })
-}
+    password,
+  });
+};
 
 const userRepo = {
   findUser,
-  createUser
+  createUser,
 };
 
 module.exports = userRepo;
