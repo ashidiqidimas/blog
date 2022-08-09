@@ -160,5 +160,6 @@ Post [
 	user_id: FK belongs to User
 	photo_URL: string
 	post_title: string
+	post_body: string
 ]
 ```
