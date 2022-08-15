@@ -1,10 +1,7 @@
 const constService = require("./post.service");
 
 const getPostForUser = async (req, res) => {
-  const authUser = req.auth;
-  const userId = authUser.user_id;
-
-  if (!userId) return res.status(401).send("Can't find user id in authorization")
+  const { userId } = req.body;
 
   try {
     const posts = await constService.getUserPost(userId);
@@ -37,6 +34,7 @@ const getAllPost = async (req, res) => {
 const createPost = async (req, res) => {
   const { postTitle, photoURL, postBody } = req.body;
   const authUser = req.auth;
+  if (!authUser) return res.status(401).send("Authorization failed");
   try {
     await constService.createPost({
       userId: authUser.user_id, postTitle, photoURL, postBody,
@@ -49,7 +47,15 @@ const createPost = async (req, res) => {
 
 const updatePost = async (req, res) => {
   const { postTitle, photoURL, postBody } = req.body;
+  const { userId } = req.params;
   const authUser = req.auth;
+  if (!authUser) return res.status(401).send("Authorization failed");
+
+  if (userId !== authUser) {
+    const err = new Error("Not authorized");
+    err.code = 401;
+    return res.json(err);
+  }
   try {
     await constService.updatePost({
       userId: authUser.user_id, postTitle, photoURL, postBody,
@@ -65,7 +71,7 @@ const postController = {
   getAllPost,
   getPostForUser,
   createPost,
-  updatePost
+  updatePost,
 };
 
 module.exports = postController;

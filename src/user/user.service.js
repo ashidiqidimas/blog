@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const userRepo = require("./user.repo");
 
-const createUser = ({email, password, fullname}) => {
+const createUser = ({ email, password, fullname }) => {
   return new Promise(async (resolve, reject) => {
     // check if a user with the given email already exist
     const dbUser = await userRepo.findUser(email);
@@ -14,7 +14,7 @@ const createUser = ({email, password, fullname}) => {
       try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await userRepo.createUser({
-          email, password: hashedPassword, fullname
+          email, password: hashedPassword, fullname,
         });
         resolve(newUser);
       } catch (e) {
@@ -24,8 +24,24 @@ const createUser = ({email, password, fullname}) => {
   });
 };
 
+const updateUser = async ({ fullname, email, password }) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const editedPost = await userRepo.updateUser({
+        email, password, fullname,
+      });
+      resolve(editedPost);
+    } catch (e) {
+      const error = new Error("Failed while updating a user data");
+      error.code = 501;
+      reject(error);
+    }
+  });
+};
+
 const userService = {
-  createUser
+  createUser,
+  updateUser,
 };
 
 module.exports = userService;

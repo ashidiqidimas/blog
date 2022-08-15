@@ -12,9 +12,23 @@ const createUser = async ({ email, password, fullname }) => {
   });
 };
 
+const updateUser = async ({ email, password, fullname }) => {
+  try {
+    const user = await findUser({ email });
+    await user.update({
+      email,
+      password,
+      fullname
+    });
+  } catch (e) {
+    throw e;
+  }
+};
+
 const userRepo = {
   findUser,
   createUser,
+  updateUser
 };
 
 module.exports = userRepo;
