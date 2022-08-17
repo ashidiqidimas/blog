@@ -1,5 +1,8 @@
 # Blog
 
+## API Docs
+http://localhost:8000/api-docs/
+
 ## API Endpoints
 ### Registration Page
 > POST blogsaya.com/user/register
