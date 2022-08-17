@@ -24,25 +24,28 @@ const { authValidation } = require("../middleware/auth.validation");
  *              properties:
  *                email:
  *                  type: string
- *                  example: dim@mail.com
+ *                  example: test1@mail1.com
  *                password:
  *                  type: string
- *                  example: myPassword
+ *                  example: superStrongPassword
  *      responses:
  *        '200':
  *          description: Success
  *          content:
  *            application/json:
  *              schema:
- *                type: string
- *                example: Success
+ *                type: object
+ *                properties:
+ *                  accessToken:
+ *                    type: string
+ *                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1LCJpYXQiOjE2NjA3MDYzNTcsImV4cCI6MTY2MTMxMTE1N30.IG0bCoMX2EZh4CUfWhyg8X3xkEAHUdkRmO0DcViTfDw
  *        '401':
- *          description: Authorization failed
+ *          description: Error Unauthorized
  *          content:
  *            application/json:
  *              schema:
  *                type: string
- *                example: Not authorized
+ *                example: Email or password is wrong
  */
 authRouter.post("/login", authValidation, validate, authController.login);
 

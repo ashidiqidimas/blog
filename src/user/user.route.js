@@ -3,6 +3,7 @@ const userRoute = express.Router();
 const userController = require("./user.controller");
 const { registrationValidation } = require("../middleware/user.validation");
 const { validate } = require("../middleware/validation");
+const verifyToken = require("../middleware/verifyToken");
 
 
 /**
@@ -26,10 +27,10 @@ const { validate } = require("../middleware/validation");
  *              properties:
  *                fullname:
  *                  type: string
- *                  example: Dimas Ashidiqi
+ *                  example: test 1
  *                email:
  *                  type: string
- *                  example: dimas@ashidiqi.com
+ *                  example: test1@mail1.com
  *                password:
  *                  type: string
  *                  example: superStrongPassword
@@ -39,26 +40,36 @@ const { validate } = require("../middleware/validation");
  *          content:
  *            application/json:
  *              schema:
- *                type: string
- *                example: Success
- *        '401':
- *          description: Authorization failed
+ *                type: object
+ *                properties:
+ *                  accessToken:
+ *                    type: string
+ *                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE2NjA2OTM2MTQsImV4cCI6MTY2MDY5MzY3NH0.lHCOV-718rEY4ZwsliBsGHeMR9LAAu0azXNizLHEcM0
+ *        '409':
+ *          description: Error Conflict
  *          content:
  *            application/json:
  *              schema:
  *                type: string
- *                example: Not authorized
+ *                example: Email already exist
  */
 userRoute.post("/register", registrationValidation, validate, userController.createUser);
 
 /**
  * @swagger
- *  /user/:userId:
+ *  /user/{userId}:
  *    put:
+ *      security:
+ *        - bearerAuth: []
  *      summary: Update user account
- *      description: Update user email, fullname, or password
+ *      description: Update user email, fullname, or password. userId in params must be the same as userId in JWT payload
  *      tags:
  *        - User
+ *      parameters:
+ *        - in: path
+ *          name: userId
+ *          type: integer
+ *          required: true
  *      requestBody:
  *        required: true
  *        content:
@@ -75,13 +86,13 @@ userRoute.post("/register", registrationValidation, validate, userController.cre
  *                  example: Dimas Ashidiqi
  *                email:
  *                  type: string
- *                  example: dimas@ashidiqi.com
+ *                  example: test1@mail1.com
  *                password:
  *                  type: string
  *                  example: superStrongPassword
  *      responses:
  *        '200':
- *          description: Login success
+ *          description: Success update a user data
  *          content:
  *            application/json:
  *              schema:
@@ -102,6 +113,6 @@ userRoute.post("/register", registrationValidation, validate, userController.cre
  *                type: string
  *                example: Failed while updating a user data
  */
-userRoute.put(":userId", registrationValidation, validate, userController.updateUser);
+userRoute.put("/:userId", registrationValidation, validate, verifyToken, userController.updateUser);
 
 module.exports = userRoute;

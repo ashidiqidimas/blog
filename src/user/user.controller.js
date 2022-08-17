@@ -18,10 +18,10 @@ const updateUser = async (req, res) => {
   const { userId } = req.params;
   const authUser = req.auth;
 
-  if (userId !== authUser) {
+  if (userId != authUser.user_id) {
     const err = new Error("Not authorized");
     err.code = 401;
-    return res.json(err);
+    return res.status(401).json(err);
   }
 
   try {

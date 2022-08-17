@@ -4,7 +4,6 @@ const validate = (req, res, next) => {
   if (!error.isEmpty()) {
     return res.status(400).json({ errors: error.array() });
   }
-
   next();
 };
 

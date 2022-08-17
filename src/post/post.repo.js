@@ -9,7 +9,8 @@ const findUserPost = async (userId) => {
 };
 
 const findPost = async (postId) => {
-    return await Post.findByPk(postId);
+  const temp = await Post.findByPk(postId);
+  return temp;
 };
 
 const createPost = async ({ userId, postTitle, photoURL, postBody }) => {
@@ -21,11 +22,10 @@ const createPost = async ({ userId, postTitle, photoURL, postBody }) => {
   });
 };
 
-const updatePost = async ({ userId, postTitle, photoURL, postBody }) => {
+const updatePost = async ({ postId, postTitle, photoURL, postBody }) => {
   try {
-    const post = await findPost({ userId });
+    const post = await findPost(postId);
     await post.update({
-      user_id: userId,
       post_title: postTitle,
       photo_URL: photoURL,
       post_body: postBody,

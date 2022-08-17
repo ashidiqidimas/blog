@@ -9,8 +9,8 @@ const login = async (email, password) => {
 
     // if user not exist
     if (!existingUser) {
-      const notExistError = new Error(`User with email ${email} not found`);
-      notExistError.code = 404;
+      const notExistError = new Error(`Email or password is wrong`);
+      notExistError.code = 401;
       reject(notExistError);
     }
 
@@ -20,11 +20,11 @@ const login = async (email, password) => {
       const token = await jwt.sign(
         payload,
         process.env.JWT_SECRET_PASSWORD,
-        { expiresIn: "1d" },
+        { expiresIn: "7d" },
       );
       resolve({ accessToken: token});
     } else {
-      const wrongPasswordError = new Error("Password is wrong");
+      const wrongPasswordError = new Error("Email or password is wrong");
       wrongPasswordError.code = 401;
       reject(wrongPasswordError);
     }

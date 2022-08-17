@@ -15,14 +15,8 @@ const getPost = async (postId) => {
 
 const getUserPost = async (userId) => {
   return new Promise(async (resolve, reject) => {
-    const post = await postRepo.findPost(userId);
-    if (post) {
-      resolve(post);
-    } else {
-      const error = new Error("Post not exist");
-      error.code = 404;
-      reject(error);
-    }
+    const post = await postRepo.findUserPost(userId);
+    resolve(post)
   });
 };
 
@@ -39,16 +33,16 @@ const getAllPost = async () => {
   });
 };
 
-const updatePost = async ({ userId, postTitle, photoURL, postBody }) => {
+const updatePost = async ({ postId, postTitle, photoURL, postBody }) => {
   return new Promise(async (resolve, reject) => {
     try {
       const editedPost = await postRepo.updatePost({
-        userId, postTitle, photoURL, postBody,
+        postId, postTitle, photoURL, postBody,
       });
       resolve(editedPost);
     } catch (e) {
       const error = new Error("Failed while updating a post");
-      error.code = 401;
+      error.code = 500;
       reject(error);
     }
   });

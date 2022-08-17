@@ -8,6 +8,15 @@ const options = {
       description: "This is one of the project that I did in Binar Academy",
       version: "1.0.0",
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT"
+        },
+      },
+    },
   },
   apis: ["./src/**/*.js"], // files containing annotations as above
 };

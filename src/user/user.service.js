@@ -16,7 +16,7 @@ const createUser = ({ email, password, fullname }) => {
         const newUser = await userRepo.createUser({
           email, password: hashedPassword, fullname,
         });
-        resolve(newUser);
+        resolve(`Success created new user with email ${newUser.email}`);
       } catch (e) {
         reject(e);
       }

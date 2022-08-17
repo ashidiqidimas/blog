@@ -1,7 +1,7 @@
 const { User } = require("../database/models");
 
 const findUser = async (email) => {
-  return await User.findOne({ where: { email }, raw: true });
+  return await User.findOne({ where: { email } });
 };
 
 const createUser = async ({ email, password, fullname }) => {
@@ -14,11 +14,11 @@ const createUser = async ({ email, password, fullname }) => {
 
 const updateUser = async ({ email, password, fullname }) => {
   try {
-    const user = await findUser({ email });
+    const user = await findUser(email);
     await user.update({
       email,
       password,
-      fullname
+      fullname,
     });
   } catch (e) {
     throw e;
@@ -28,7 +28,7 @@ const updateUser = async ({ email, password, fullname }) => {
 const userRepo = {
   findUser,
   createUser,
-  updateUser
+  updateUser,
 };
 
 module.exports = userRepo;

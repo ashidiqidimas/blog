@@ -1,9 +1,9 @@
 const { body } = require("express-validator");
 
 const postValidation = [
-  body('title').isString().isLength({ min: 2, max: 150 }),
-  body('image').isURL(),
-  body('body').isString(),
+  body('postTitle').isString().isLength({ min: 2, max: 150 }),
+  body('photoURL').isString(),
+  body('postBody').isString(),
 ];
 
 module.exports = {

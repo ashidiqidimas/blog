@@ -13,7 +13,19 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+// const options = {
+//   swaggerOptions: {
+//     authAction: {
+//       JWT: {
+//         name: "JWT",
+//         schema: { type: "apiKey", in: "header", name: "Authorization", description: "" },
+//         value: "Bearer $2b$10$ZYiMFwjLxaIbVt.ECfy9HODvOAnq7SaNXQPMlyEp90TcNGrHwrNwC",
+//       },
+//     },
+//   },
+// };
+
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.use("/auth", authRouter);
 app.use("/user", userRoute);
